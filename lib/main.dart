@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:worldtime/pages/choose_location.dart';
 import 'package:worldtime/pages/home.dart';
+import 'package:worldtime/pages/loading.dart';
 
 /*
   This project will have 3 different screens:
@@ -9,5 +11,10 @@ import 'package:worldtime/pages/home.dart';
  */
 
 void main() => runApp(MaterialApp(
-  home: Home(),
+  initialRoute: '/home',  // Which of the routes below will be the initial when open the app (it's for now).
+  routes: {
+    '/': (context) => Loading(),
+    '/home': (context) => Home(),
+    '/location': (context) => ChooseLocation(),
+  },
 ));
