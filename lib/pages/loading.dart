@@ -12,9 +12,17 @@ class _LoadingState extends State<Loading> {
 
   void getData() async {
 
-    Response response = await get('https://jsonplaceholder.typicode.com/todos/1');
+    Response response = await get('http://worldtimeapi.org/api/timezone/America/Bogota');
     Map data = jsonDecode(response.body); // This is a JSON string
-    print(data);
+
+    // Get properties from data
+    String datetime = data['datetime'];   // Then convert into date/time object
+    String offset = data['utc_offset'].toString().substring(0,3);
+
+    //  Create DateTime object
+    DateTime now = DateTime.parse(datetime);
+    now = now.add(Duration(hours: int.parse(offset)));
+    print(now);
 
   }
 
