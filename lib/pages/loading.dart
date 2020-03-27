@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:worldtime/services/world_time.dart';
 
 // This page will redirect to Home screen
 class Loading extends StatefulWidget {
@@ -10,32 +9,30 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
 
-  void getData() async {
+  String time = 'Loading';
 
-    Response response = await get('http://worldtimeapi.org/api/timezone/America/Bogota');
-    Map data = jsonDecode(response.body); // This is a JSON string
-
-    // Get properties from data
-    String datetime = data['datetime'];   // Then convert into date/time object
-    String offset = data['utc_offset'].toString().substring(0,3);
-
-    //  Create DateTime object
-    DateTime now = DateTime.parse(datetime);
-    now = now.add(Duration(hours: int.parse(offset)));
-    print(now);
-
+  void setUpWorldTime() async{
+    WorldTime instance = WorldTime(location: 'Bogota', flag: 'colombia.png', url: 'America/Bogota');
+    await instance.getData();
+    print(instance.time);
+    setState(() {
+      time = instance.time;
+    });
   }
 
   @override
-  void initState() {
+  void initState(){    // Call once when the Widget is created
     super.initState();
-    getData();
+    setUpWorldTime();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('Loading screen'),
+      body: Padding(
+        padding: EdgeInsets.all(50.0),
+        child: Text(time),
+      ),
     );
   }
 }
