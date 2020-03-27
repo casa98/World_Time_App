@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     // This will get the data that was sent from Loading route
-    data = ModalRoute.of(context).settings.arguments;  // Returns a map
+    data = data.isNotEmpty ? data: ModalRoute.of(context).settings.arguments;  // Returns a map
 
     // Set background image depending on it is day or night
     String bgImage = data['isDayTime'] ? 'day.jpg' : 'night.jpg';
@@ -37,8 +37,16 @@ class _HomeState extends State<Home> {
             child: Column(
               children: <Widget>[
                 FlatButton.icon(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/location');
+                    onPressed: () async{
+                      dynamic result = await Navigator.pushNamed(context, '/location');
+                      setState(() {
+                        data = {
+                          'time': result['time'],
+                          'location': result['location'],
+                          'isDayTime': result['isDayTime'],
+                          'flag': result['flag'],
+                        };
+                      });
                     },
                     icon: Icon(
                       Icons.edit_location,
