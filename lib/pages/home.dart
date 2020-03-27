@@ -19,7 +19,11 @@ class _HomeState extends State<Home> {
     // Set background image depending on it is day or night
     String bgImage = data['isDayTime'] ? 'day.jpg' : 'night.jpg';
 
+    // Set status bar color depending on time
+    Color bgColor = data['isDayTime'] ? Colors.blue : Colors.indigo[700];
+
     return Scaffold(
+      backgroundColor: bgColor,
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
@@ -36,8 +40,16 @@ class _HomeState extends State<Home> {
                     onPressed: (){
                       Navigator.pushNamed(context, '/location');
                     },
-                    icon: Icon(Icons.edit_location),
-                    label: Text('Edit location'),
+                    icon: Icon(
+                      Icons.edit_location,
+                      color: Colors.grey[300],
+                    ),
+                    label: Text(
+                      'Edit location',
+                      style: TextStyle(
+                        color: Colors.grey[300],
+                      ),
+                    ),
                 ),
                 SizedBox(height: 20.0,),
                 Row(
@@ -48,6 +60,7 @@ class _HomeState extends State<Home> {
                       style: TextStyle(
                         fontSize: 25.0,
                         letterSpacing: 2.0,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -57,6 +70,7 @@ class _HomeState extends State<Home> {
                   data['time'],
                   style: TextStyle(
                     fontSize: 66,
+                    color: Colors.white,
                   ),
                 ),
               ],
